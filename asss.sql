@@ -1,4 +1,5 @@
-2}
+2}Product Inventory:
+
 CREATE TABLE products ( product_id int , product_name varchar(30), category_id int, price int); 
 CREATE TABLE categories(category_id int, category_name varchar(30));
 create table orders(order_id int, product_id int, quantity int, order_date date);
@@ -12,7 +13,8 @@ GROUP BY c.category_id;
 
 
 ===============================================5==========================================================
-5}
+5}E-commerce Analysis:
+	
 create table customer(customer_id int, customer_name varchar(30), customer_country varchar(30));
 create table orders ( order_id int, customer_id int, product_id int, order_date date, order_quantity int);
 create table products( product_id int, product_name varchar(30), product_price int);
@@ -42,6 +44,53 @@ INNER JOIN orders o ON c.customer_id = o.customer_id
 INNER JOIN products p ON o.product_id = p.product_id
 GROUP BY c.customer_country;
 
+
+=========================================================4=======================================================
+	
+4}University Enrollment:
+	
+create table students( student_id int, student_name varchar(30), student_major varchar(30));
+create table courses( course_id int, course_name varchar(30), course_department varchar(30));
+create table enrollments( enrollment_id int, student_id int, course_id int, enrollment_date date);
+create table grades ( grade_id int, enrollment_id int, grade_value int);
+
+-- Students
+INSERT INTO students (student_id, student_name, student_major)
+VALUES (1, 'Alice Smith', 'CS'),
+       (2, 'Bob Jones', 'Math'),
+       (3, 'Charlie Brown', 'History'),
+       (4, 'David Lee', 'Engineering'),
+       (5, 'Emily Watson', 'Biology');
+
+-- Courses
+INSERT INTO courses (course_id, course_name, course_department)
+VALUES (101, 'Intro to Programming', 'CS'),
+       (102, 'Calculus I', 'Math'),
+       (103, 'World History', 'History'),
+       (104, 'Mechanics', 'Engineering'),
+       (105, 'General Biology', 'Biology');
+
+-- Enrollments (assuming some students might not be enrolled in all courses)
+INSERT INTO enrollments (enrollment_id, student_id, course_id, enrollment_date)
+VALUES (1, 1, 101, '2024-06-20'),
+       (2, 2, 102, '2024-06-20'),
+       (3, 3, 103, '2024-06-20'),
+       (4, 4, 104, '2024-06-20'),
+       (5, 1, 104, '2024-06-20');
+
+-- Grades (assuming not all enrollments have grades yet)
+INSERT INTO grades (grade_id, enrollment_id, grade_value)
+VALUES (1, 1, 85),
+       (2, 2, 90),
+       (3, 3, 78),
+       (4, 4, 82);
+
+
+SELECT c.course_name, AVG(g.grade_value) AS average_grade
+FROM courses c
+INNER JOIN enrollments e ON c.course_id = e.course_id
+INNER JOIN grades g ON e.enrollment_id = g.enrollment_id
+GROUP BY c.course_name;
 
 
 
