@@ -35,3 +35,15 @@ INSERT INTO qn2 (ID, NAME) VALUES (1, 'Jack'),(2,'rose');
 SELECT * FROM qn2;
 
 SELECT ID, NAME FROM qn2;
+
+
+================================================================3=============================================================
+
+DECLARE @Date DATE='2017-5-1'
+DECLARE @TEMP VARCHAR(30);
+
+SET @TEMP=
+  CASE WHEN @Date = CAST(YEAR(@Date) AS varchar(4)) + '-01-01' THEN 1  
+       ELSE DATEDIFF(day, CAST(YEAR(@Date) AS varchar(4)) + '-01-01', @Date) + 1  
+  END
+  
