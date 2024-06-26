@@ -1,4 +1,5 @@
- CREATE FUNCTION RES(
+===========================================================1=============================================================================
+CREATE FUNCTION RES(
  @I VARCHAR(255)
  )
  RETURNS VARCHAR(255)
@@ -22,4 +23,15 @@ SELECT [dbo].[RES](A) AS extracted_numerics
 FROM NUM;
  
 SELECT * FROM NUM
+==================================================================2================================================================
+CREATE TABLE qn2 (
+    ID INT PRIMARY KEY,
+    Name VARCHAR(50),
+    RestrictedColumn AS (1 / 0) 
+);
 
+INSERT INTO qn2 (ID, NAME) VALUES (1, 'Jack'),(2,'rose');
+
+SELECT * FROM qn2;
+
+SELECT ID, NAME FROM qn2;
