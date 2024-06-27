@@ -80,3 +80,33 @@ UPDATE cal SET DATA = CAST(DAY(@Date) AS VARCHAR(2)) + '-30/31' WHERE CALENDAR =
 SELECT * FROM cal
 
 =================================================================5============================================================
+CREATE TABLE HIERARCHY (
+EID INT PRIMARY KEY,
+ENAME VARCHAR(40),
+MID INT
+)
+ 
+INSERT INTO HIERARCHY VALUES
+(1, 'JACK', NULL),
+(2, 'ROSE', 1),
+(3, 'RAMESH', 1),
+(4, 'SURESH', 2),
+(5, 'PRADEEP', 5),
+(6, 'RAJ', 6)
+
+ 
+WITH EHIERARCHY AS (
+  SELECT EID , ENAME , MID, 1 as level
+  FROM HIERARCHY
+  WHERE  MID IS NULL
+  UNION ALL
+  SELECT e.EID, e.ENAME, e.MID, eh.level + 1
+  FROM HIERARCHY e
+  JOIN EHIERARCHY eh ON e.MID = eh.EID   
+)
+SELECT EID, ENAME , 
+(SELECT ENAME FROM EHIERARCHY WHERE EID=(
+SELECT MID FROM EHIERARCHY WHERE m.EID=EID)) AS managerName,
+level
+FROM EHIERARCHY m;
+
