@@ -47,3 +47,36 @@ SET @TEMP=
        ELSE DATEDIFF(day, CAST(YEAR(@Date) AS varchar(4)) + '-01-01', @Date) + 1  
   END
   
+================================================================4==================================================================
+create table cal(CALENDAR VARCHAR(30),DATA VARCHAR(30));
+ 
+
+INSERT INTO cal VALUES ('DayofYear',NULL),('Week',NULL),('DayofWeek',NULL),('Month','-12'),('DayofMonth','-30/31');
+ 
+DECLARE @Date DATE='2017-12-1'
+DECLARE @TEMP VARCHAR(30);
+
+SET @TEMP=
+  CASE WHEN @Date = CAST(YEAR(@Date) AS varchar(4)) + '-01-01' THEN 1  
+       ELSE DATEDIFF(day, CAST(YEAR(@Date) AS varchar(4)) + '-01-01', @Date) + 1  
+  END
+ 
+
+DECLARE @N INT= CAST(@TEMP AS INT)
+DECLARE @N2 INT= CAST(@TEMP AS INT)
+SET @N=CEILING(@N/7)
+
+UPDATE cal SET DATA=CONCAT(@TEMP,'-365/366') WHERE(CALENDAR='DayofYear')
+DECLARE @TEMP2 VARCHAR(30)=CAST(@N AS varchar(30))
+
+UPDATE cal SET DATA=@TEMP2+'-52/53' WHERE (CALENDAR='Week')
+
+SET @N2 =@N2%7
+SET @TEMP2=CAST(@N2 AS VARCHAR(30))
+UPDATE cal SET DATA=@TEMP2+'-7' WHERE (CALENDAR='DayofWeek');
+
+UPDATE cal SET DATA = CAST(MONTH(@Date) AS VARCHAR(2)) + '-12' WHERE CALENDAR = 'Month';
+UPDATE cal SET DATA = CAST(DAY(@Date) AS VARCHAR(2)) + '-30/31' WHERE CALENDAR = 'DayOfMonth';
+SELECT * FROM cal
+
+=================================================================5============================================================
